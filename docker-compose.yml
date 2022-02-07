@@ -1,0 +1,8 @@
+version: "3.9" 
+services:
+  database:
+    build: ./Blog.Database/.
+  grpc:
+    build: ./Blog.Grpc/.
+    ports:
+      - "5000:80"
