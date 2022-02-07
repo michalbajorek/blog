@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
+		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.42.0" />
+		<PackageReference Include="MySqlConnector" Version="2.1.5" />
+		<PackageReference Include="MySqlConnector.Logging.Microsoft.Extensions.Logging" Version="2.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Controllers\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\Blog.Grpc.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+</Project>
