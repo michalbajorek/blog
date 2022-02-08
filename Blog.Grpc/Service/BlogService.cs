@@ -18,10 +18,13 @@ namespace Blog.Grpc
         public override Task<CreatePostResponse> CreatePost(CreatePostRequest request, ServerCallContext context)
         {
             logger.LogInformation($"Create post \"{request.Title}\" by {request.Author}");
-            var response = new CreatePostResponse();
 
             using var postGateway = new PostGateway();
-            response.Success = postGateway.Insert(request.Author, request.Title, request.Content) > 0;
+
+            var response = new CreatePostResponse
+            {
+                Success = postGateway.Insert(request.Author, request.Title, request.Content)
+            };
 
             return Task.FromResult(response);
         }
@@ -29,6 +32,7 @@ namespace Blog.Grpc
         public override Task<GetPostResponse> GetPost(GetPostRequest request, ServerCallContext context)
         {
             logger.LogInformation($"Get post {request.Id}");
+
             using var postGateway = new PostGateway();
             var post = postGateway.Select(request.Id);
 
@@ -52,12 +56,28 @@ namespace Blog.Grpc
         public override Task<UpdatePostResponse> UpdatePost(UpdatePostRequest request, ServerCallContext context)
         {
             logger.LogInformation($"Update post {request.Id}");
-            return Task.FromResult(new UpdatePostResponse());
+
+            using var postGateway = new PostGateway();
+
+            var response = new UpdatePostResponse
+            {
+                Success = postGateway.Update(request.Id, request.Author, request.Title, request.Content)
+            };
+
+            return Task.FromResult(response);
         }
 
         public override Task<DeletePostResponse> DeletePost(DeletePostRequest request, ServerCallContext context)
         {
             logger.LogInformation($"Delete post {request.Id}");
+
+            using var postGateway = new PostGateway();
+
+            var response = new DeletePostResponse
+            {
+                Success = postGateway.Delete(request.Id)
+            };
+
             return Task.FromResult(new DeletePostResponse());
         }
     }
